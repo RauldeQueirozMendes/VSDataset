@@ -37,7 +37,7 @@ If you are planning to employ our dataset in your work please mind citing our pa
 
 We tested the visual servoing dataset on a hardware with Python 3.5, Keras (), Tensorflow (), Ubuntu 16.04 operating system, Intel Core  i7-7700 processor with 8 cores of 3.6GHz and an Nvidia GPU GeForce GTX 1050 Ti. 
 
-:floppy_disk: ##Run
+## :floppy_disk: Run
 
 Firstly, to download the VS dataset you have to install the gdown and unzip dependencies as follows:
 
