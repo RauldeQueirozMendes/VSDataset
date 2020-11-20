@@ -60,7 +60,7 @@ Finally, you have to run the download_vs_dataset.sh file in the VSDataset folder
 
 ```shell
 cd /path/to/USP-VS-CP-Dataset/VSDataset
-python3 download_vs_dataset.sh path_to_save_the_dataset
+sh download_vs_dataset.sh path_to_save_the_dataset
 ```
 
 ## :closed_lock_with_key: License
