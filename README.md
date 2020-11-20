@@ -11,12 +11,8 @@
 **Description**
 
 ```
-Dataset for visual servoing and camera pose estimation. 
-The images were obtained by a manipulator robot with an eye-in-hand camera in different poses. 
-The labels represent the camera pose. 
-It is possible to obtain the absolute pose of the camera without any pre-processing of the dataset, as well as the relative pose between images through matrix transformations. 
-One may also use the dataset to get the camera's 6DoF speeds so that the visual servo control between two images can be performed. 
-Such speeds are already calculated through the classic PBVS law and made available in the VSLabels.txt file.
+Dataset for visual servoing and camera pose estimation. The images were obtained by a manipulator robot with an eye-in-hand camera in different poses. The labels represent the camera pose. It is possible to obtain the absolute pose of the camera without any pre-processing of the dataset, as well as the relative pose between images through matrix transformations. One may also use the dataset to get the camera's 6DoF speeds so that the visual servo control between two images can be performed. Such speeds are already calculated through the classic PBVS law and made available in the VSLabels.txt file.
+
 ```
 
 This is the implementation of the visual servoing dataset proposed in the following work to train Deep Learning models:
@@ -25,3 +21,15 @@ This is the implementation of the visual servoing dataset proposed in the follow
 >
 > [E. G. Ribeiro](eduardogr@usp.br), [R. Q. Mendes](raulmendes@usp.br) and [V. Grassi Jr](vgrassi@usp.br)
 
+This dataset may be used either for commercial or non-commercial applications. However, we do not provide any warranty (or assume liability) for the provided dataset. We encourage the readers to see the [license file](LICENSE) for terms.
+
+If you are planning to employ our dataset in your work, please mind citing our paper:
+
+```
+@article{ribeiro2020real,
+  title={Real-Time Deep Learning Approach to Visual Servo Control and Grasp Detection for Autonomous Robotic Manipulation},
+  author={Ribeiro, EG and Mendes, RQ and Grassi Jr, V},
+  journal={arXiv preprint arXiv:2010.06544},
+  year={2020}
+}
+```
