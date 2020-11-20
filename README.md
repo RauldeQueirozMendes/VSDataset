@@ -64,4 +64,4 @@ python3 download_vs_dataset.sh path_to_save_the_dataset
 ```
 
 ## :closed_lock_with_key: License
-Please see the [license file](LICENSE) for terms.
+Please, see the [license file](LICENSE) for terms.
