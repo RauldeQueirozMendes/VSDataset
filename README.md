@@ -25,7 +25,7 @@ This is the implementation of the visual servoing dataset proposed in the follow
 >
 > [E. G. Ribeiro](eduardogr@usp.br), [R. Q. Mendes](raulmendes@usp.br) and [V. Grassi Jr](vgrassi@usp.br)
 
-This dataset may be used either for commercial or non-commercial applications. However, we do not provide any warranty (or assume liability) for the provided dataset. We encourage the readers to see the [license file](LICENSE) for terms.
+This dataset may be used either for commercial or non-commercial applications. However, we do not provide any warranty (or assume liability) for the provided dataset. We encourage the readers to see the [license script](LICENSE) for terms.
 
 If you are planning to employ our dataset in your work please mind citing our paper:
 
@@ -64,4 +64,4 @@ python3 download_vs_dataset.sh path_to_save_the_dataset
 ```
 
 ## :closed_lock_with_key: License
-Please, see the [license file](LICENSE) for terms.
+Please, see the [license script](LICENSE) for terms.
