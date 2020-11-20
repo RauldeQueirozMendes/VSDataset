@@ -8,10 +8,10 @@
 
 # Visual Servoing dataset
 
-**Description**
+## :open_book: Description
 
 ```
-Dataset for visual servoing and camera pose estimation. The images were obtained by a manipulator robot with an eye-in-hand camera in different poses. The labels represent the camera pose. It is possible to obtain the absolute pose of the camera without any pre-processing of the dataset, as well as the relative pose between images through matrix transformations. One may also use the dataset to get the camera's 6DoF speeds so that the visual servo control between two images can be performed. Such speeds are already calculated through the classic PBVS law and made available in the VSLabels.txt file.
+Dataset for visual servoing (VS) and camera pose estimation. The images were obtained by a manipulator robot with an eye-in-hand camera in different poses. The labels represent the camera pose. It is possible to obtain the absolute pose of the camera without any pre-processing of the dataset, as well as the relative pose between images through matrix transformations. One may also use the dataset to get the camera's 6DoF speeds so that the visual servo control between two images can be performed. Such speeds are already calculated through the classic PBVS law and made available in the VSLabels.txt file.
 
 ```
 
@@ -23,7 +23,7 @@ This is the implementation of the visual servoing dataset proposed in the follow
 
 This dataset may be used either for commercial or non-commercial applications. However, we do not provide any warranty (or assume liability) for the provided dataset. We encourage the readers to see the [license file](LICENSE) for terms.
 
-If you are planning to employ our dataset in your work, please mind citing our paper:
+If you are planning to employ our dataset in your work please mind citing our paper:
 
 ```
 @article{ribeiro2020real,
@@ -33,3 +33,31 @@ If you are planning to employ our dataset in your work, please mind citing our p
   year={2020}
 }
 ```
+## :gear: Configuration
+
+We tested the visual servoing dataset on a hardware with Python 3.5, Keras (), Tensorflow (), Ubuntu 16.04 operating system, Intel Core  i7-7700 processor with 8 cores of 3.6GHz and an Nvidia GPU GeForce GTX 1050 Ti. 
+
+:floppy_disk: ##Run
+
+Firstly, to download the VS dataset you have to install the gdown and unzip dependencies as follows:
+
+```shell
+pip3 install gdown
+sudo apt-get install unzip
+```
+
+Then, clone our repository to your PC:
+
+```shell
+git clone https://github.com/RauldeQueirozMendes/USP-VS-CP-Dataset.git
+```
+
+Finally, you have to run the download_vs_dataset.sh file in the VSDataset folder accordingly:
+
+```shell
+cd /path/to/USP-VS-CP-Dataset/VSDataset
+python3 download_vs_dataset.sh path_to_save_the_dataset
+```
+
+## :closed_lock_with_key: License
+Please see the [license file](LICENSE) for terms.
