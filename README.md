@@ -10,33 +10,6 @@
 
 ## :open_book: Description
 
-The error signal to be minimized in a classical vision-based control system can be described by Eq. 1, as established in (1). The **_m(t)_** vector represents measurements in the image, such as the coordinates of some points of interest. These measurements are used to obtain **_k_** features, **_s(m(t), a)_**, where **_a_** is a set of additional information regarding the system, such as the camera's intrinsic parameters or the 3D model of the objects. And **_s<up>*</up>_** represents the expected values of the features (1).
-
-<a href="https://www.codecogs.com/eqnedit.php?latex=e(t)=s(m(t),&space;a)&space;-&space;s^*" target="_blank"><img src="https://latex.codecogs.com/svg.latex?e(t)=s(m(t),&space;a)&space;-&space;s^*" title="e(t)=s(m(t), a) - s^*" /></a> (1)
-
-This feature vector **_s_** can be considered as the image as a whole in an approach called Direct Visual Servoing (2; 3). This technique does not require anymore feature extraction nor tracking, however, it has a small convergence compared to classical techniques (4), so it is still common to use designed features to build **_s_**. 
-
-<!-- e(t)=s(m(t),a)-s^* -->
-
-Once **_s_** is selected, it is common to design a velocity controller. For this, the relation between the time variation of **_s_** and the velocity of the camera **_v<sub>c</sub>_** is necessary. This relation is given by:
-
-<a href="https://www.codecogs.com/eqnedit.php?latex=\dot{s}=L_sv_c," target="_blank"><img src="https://latex.codecogs.com/svg.latex?\dot{s}=L_sv_c," title="\dot{s}=L_sv_c," /></a> (2)
-
-<!-- \dot{s}=L_sv_c -->
-
-where **_L<sub>s</sub>_** **_∈_** **_ℝ<sup>k×6</sup>_** is the interaction matrix.
-
-The variation of the error in time can be obtained from Eqs. 1 and 2, which leads to:
-
-<a href="https://www.codecogs.com/eqnedit.php?latex=\dot{e}=L_ev_c," target="_blank"><img src="https://latex.codecogs.com/svg.latex?\dot{e}=L_ev_c," title="\dot{e}=L_ev_c," /></a> (3)
-
-For controlling the robot through velocity input, it is common to use a proportional controller that guarantees the exponential decrease of the error, that is,
-
-<a href="https://www.codecogs.com/eqnedit.php?latex=\dot{e}=-&space;\lambda&space;e." target="_blank"><img src="https://latex.codecogs.com/svg.latex?\dot{e}=-&space;\lambda&space;e." title="\dot{e}=- \lambda e." /></a> (4)
-
-<!-- \dot{e}=- \lambda e -->
-
-
 ```
 Dataset for visual servoing (VS) and camera pose estimation. 
 The images were obtained by a manipulator robot with an eye-in-hand camera in different poses. 
@@ -46,24 +19,6 @@ One may also use the dataset to get the camera's 6DoF speeds so that the visual 
 Such speeds are already calculated through the classic PBVS law and made available in the VSLabels.txt file.
 ```
 
-This is the implementation of the visual servoing dataset proposed in the following work to train Deep Learning models:
-
-> [Real-Time Deep Learning Approach to Visual Servo Control and Grasp Detection for Autonomous Robotic Manipulation](https://arxiv.org/abs/2010.06544)
->
-> [E. G. Ribeiro](eduardogr@usp.br), [R. Q. Mendes](raulmendes@usp.br) and [V. Grassi Jr](vgrassi@usp.br)
-
-This dataset may be used either for commercial or non-commercial applications. However, we do not provide any warranty (or assume liability) for the provided dataset. We encourage the readers to see the [license script](LICENSE) for terms.
-
-If you are planning to employ our dataset in your work please mind citing our paper:
-
-```
-@article{ribeiro2020real,
-  title={Real-Time Deep Learning Approach to Visual Servo Control and Grasp Detection for Autonomous Robotic Manipulation},
-  author={Ribeiro, EG and Mendes, RQ and Grassi Jr, V},
-  journal={arXiv preprint arXiv:2010.06544},
-  year={2020}
-}
-```
 ## :gear: Configuration
 
 We tested the visual servoing dataset on a hardware with Python 3.5, Keras (), Tensorflow (), Ubuntu 16.04 operating system, Intel Core  i7-7700 processor with 8 cores of 3.6GHz and an Nvidia GPU GeForce GTX 1050 Ti. 
@@ -91,4 +46,4 @@ sh download_vs_dataset.sh path_to_save_the_dataset
 ```
 
 ## :closed_lock_with_key: License
-Please, see the [license script](LICENSE) for terms.
+This dataset may be used either for commercial or non-commercial applications. However, we do not provide any warranty (or assume liability) for the provided dataset. We encourage the readers to see the [license script](LICENSE) for terms.
