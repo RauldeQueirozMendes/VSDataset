@@ -10,6 +10,33 @@
 
 ## :open_book: Description
 
+The error signal to be minimized in a classical vision-based control system can be described by Eq. 1, as established in (1). The **_m(t)_** vector represents measurements in the image, such as the coordinates of some points of interest. These measurements are used to obtain **_k_** features, **_s(m(t), a)_**, where **_a_** is a set of additional information regarding the system, such as the camera's intrinsic parameters or the 3D model of the objects. And **_s<up>*</up>_** represents the expected values of the features (1).
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=e(t)=s(m(t),&space;a)&space;-&space;s^*" target="_blank"><img src="https://latex.codecogs.com/svg.latex?e(t)=s(m(t),&space;a)&space;-&space;s^*" title="e(t)=s(m(t), a) - s^*" /></a> (1)
+
+This feature vector **_s_** can be considered as the image as a whole in an approach called Direct Visual Servoing (2; 3). This technique does not require anymore feature extraction nor tracking, however, it has a small convergence compared to classical techniques (4), so it is still common to use designed features to build **_s_**. 
+
+<!-- e(t)=s(m(t),a)-s^* -->
+
+Once **_s_** is selected, it is common to design a velocity controller. For this, the relation between the time variation of **_s_** and the velocity of the camera **_v<sub>c</sub>_** is necessary. This relation is given by:
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\dot{s}=L_sv_c," target="_blank"><img src="https://latex.codecogs.com/svg.latex?\dot{s}=L_sv_c," title="\dot{s}=L_sv_c," /></a> (2)
+
+<!-- \dot{s}=L_sv_c -->
+
+where **_L<sub>s</sub>_** **_∈_** **_ℝ<sup>k×6</sup>_** is the interaction matrix.
+
+The variation of the error in time can be obtained from Eqs. 1 and 2, which leads to:
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\dot{e}=L_ev_c," target="_blank"><img src="https://latex.codecogs.com/svg.latex?\dot{e}=L_ev_c," title="\dot{e}=L_ev_c," /></a> (3)
+
+For controlling the robot through velocity input, it is common to use a proportional controller that guarantees the exponential decrease of the error, that is,
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\dot{e}=-&space;\lambda&space;e." target="_blank"><img src="https://latex.codecogs.com/svg.latex?\dot{e}=-&space;\lambda&space;e." title="\dot{e}=- \lambda e." /></a> (4)
+
+<!-- \dot{e}=- \lambda e -->
+
+
 ```
 Dataset for visual servoing (VS) and camera pose estimation. 
 The images were obtained by a manipulator robot with an eye-in-hand camera in different poses. 
