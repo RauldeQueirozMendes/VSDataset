@@ -94,11 +94,13 @@ The robot is programmed to assume different poses from a Gaussian distribution c
 
 The SD choices take into account the expected displacement values that the robot must perform during the VS. In this way, the images obtained from a high SD help the network to understand the resulting changes in the image space when a large displacement is made by the robot. The instances obtained from a low SD enable the reduction of the error between the reference image and the current one when they are very close, for a good precision in steady state. The mean SD values help the network to reason during most of the VS execution. Two dataset instance examples and their respective labels are illustrated in Fig. ().
 
-> Instance examples from the VS dataset. Generated from a Gaussian distribution with mean in the reference pose [x, y, z, α, β, γ]: (0.228m, 0.344m, 0.532m, 175.8<sup>o</sup>, -5.5<sup>o</sup>, 90.0<sup>o</sup>).
+> Instance examples from the VS dataset. Generated from a Gaussian distribution with mean in the reference pose [x, y, z, α, β, γ]: (0.228m, 0.344m, 0.532m, 175.8<sup>o</sup>, -5.5<sup>o</sup>, 90.0<sup>o</sup>) - Source: Author.
 
 ![Image taken from camera in pose (0.326m, 0.356m, 0.503m, 178.0<sup>o</sup>, 1.1<sup>o</sup>, 91.5<sup>o</sup>)](https://github.com/RauldeQueirozMendes/VSDataset/blob/main/Instance_Examples/23.png)
+> (a) Image taken from camera in pose (0.326m, 0.356m, 0.503m, 178.0<sup>o</sup>, 1.1<sup>o</sup>, 91.5<sup>o</sup>)
 
 ![Image taken from camera in pose (0.258m, 0.207m, 0.402m, -175.8<sup>o</sup>, -23.0<sup>o</sup>, 87.2<sup>o</sup>)](https://github.com/RauldeQueirozMendes/VSDataset/blob/main/Instance_Examples/26.png)
+> (b) Image taken from camera in pose (0.258m, 0.207m, 0.402m, -175.8<sup>o</sup>, -23.0<sup>o</sup>, 87.2<sup>o</sup>)
 
 <table>
     <caption>VS dataset: Composition and labels generation</caption> 
