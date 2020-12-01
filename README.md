@@ -24,7 +24,7 @@ Such speeds are already calculated through the classic PBVS law and made availab
 
 ## :gear: Construction of the dataset
 
-We tested the visual servoing dataset on a hardware with Python 3.5, Keras (), Tensorflow (), Ubuntu 16.04 operating system, Intel Core  i7-7700 processor with 8 cores of 3.6GHz and an Nvidia GPU GeForce GTX 1050 Ti. 
+We tested the visual servoing dataset on a hardware with Python 3.6.8, Keras 2.2.4, Tensorflow 1.13.1, Ubuntu 16.04 operating system, Intel Core  i7-7700 processor with 8 cores of 3.6GHz and an Nvidia GPU GeForce GTX 1050 Ti. 
 
 To train a model that can perform visual servoing on different target objects, without the need to design features, it is necessary to have a dataset that efficiently captures the attributes of the environment in which the robot operates, be representative of the VS task and diverse enough to ensure generalization. To this end, the data is collected by the robot Kinova Gen3 in a way that approximates the self-supervised approach. Human interventions are associated with the assembly of the workspace and the setup of the robot, which involves determining a reference pose from which the robot captures the images and labels them.
 
@@ -94,7 +94,7 @@ The robot is programmed to assume different poses from a Gaussian distribution c
 
 The SD choices take into account the expected displacement values that the robot must perform during the VS. In this way, the images obtained from a high SD help the network to understand the resulting changes in the image space when a large displacement is made by the robot. The instances obtained from a low SD enable the reduction of the error between the reference image and the current one when they are very close, for a good precision in steady state. The mean SD values help the network to reason during most of the VS execution. Two dataset instance examples and their respective labels are illustrated in Fig. ().
 
-> Instance examples from the VS dataset. Generated from a Gaussian distribution with mean in the reference pose [x, y, z, α, β, γ]: (0.228m, 0.344m, 0.532m, 175.8<sup>o</sup>, -5.5<sup>o</sup>, 90.0<sup>o</sup>) - Source: Author.
+> Instance examples from the VS dataset. Generated from a Gaussian distribution with mean in the reference pose **_[x, y, z, α, β, γ]: (0.228m, 0.344m, 0.532m, 175.8<sup>o</sup>, -5.5<sup>o</sup>, 90.0<sup>o</sup>)_** - Source: Author.
 
 ![Image taken from camera in pose (0.326m, 0.356m, 0.503m, 178.0<sup>o</sup>, 1.1<sup>o</sup>, 91.5<sup>o</sup>)](https://github.com/RauldeQueirozMendes/VSDataset/blob/main/Instance_Examples/23.png)
 > (a) Image taken from camera in pose (0.326m, 0.356m, 0.503m, 178.0<sup>o</sup>, 1.1<sup>o</sup>, 91.5<sup>o</sup>)
@@ -160,6 +160,12 @@ The SD choices take into account the expected displacement values that the robot
         </tr>
     </tbody>
 </table>
+
+After obtaining the data, the dataset is structured in the form **_(I, [x, y, z, α, β, γ])_**, in which **_I_** is the image, and **_[x, y, z, α, β, γ]_** is the associated camera pose when this image was captured. In order to use this dataset to train a Position Based VS neural network, two images and the relative pose between them must be considered. Then, each instance of the processed dataset takes the form **_(I<sub>d</sub>, I<sub>c</sub>,  <sup>d</sup>H<sub>c</sub>)_**, in which **_I<sub>d</sub>_** is a random instance chosen as the desired image, **_I<sub>c</sub>_** is another instance chosen as current image, and **_<sup>d</sup>H<sub>c</sub>_** is the transformation that relates the current frame to the desired camera frame. This is done by expressing each pose, represented by translations and Euler angles, in an homogeneous transformation matrix form **_<sup>0</sup>H<sub>d</sub>_** and **_<sup>0</sup>H<sub>c</sub>_**, and then obtaining **_<sup>d</sup>H<sub>c</sub> = <sup>0</sup>H<sub>d</sub><sup>-1</sup> <sup>0</sup>H<sub>c</sub>_**.
+
+Finally, for the network to be, in fact, a controller, the intention is that its prediction is directly the velocity signal of the camera, _i. e._ the control signal. So, the data structured as **_(I<sub>d</sub>, I<sub>c</sub>, <sup>d</sup>H<sub>c</sub>)_** is transformed to **_(I<sub>d</sub>, I<sub>c</sub>, v<sub>c</sub>)_**, in which **_v<sub>c</sub>_** is the proportional camera velocity. The proportional term is used because the **_λ_** gain is not considered in determining the labeled velocity, and must be tunned _a posteriori_, during the control execution. The velocity **_v<sub>c</sub>_** is obtained from **_<sup>d</sup>H<sub>c</sub>_** using Eqs. (), () and () (not considering **_λ_**).
+
+The final number of instances generated for network training and validation is given by Eq. ().
 
 ## :floppy_disk: Run
 
