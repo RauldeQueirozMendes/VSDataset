@@ -181,7 +181,7 @@ These **_I<sub>d</sub>_** and **_I<sub>c</sub>_** choices were made to ensure th
 
 ## :bar_chart: Practical details of the dataset
 
-__Camera:__ Omnivision OV5640 - **_1280\times720_** @ 15/30 fps
+__Camera:__ Omnivision OV5640 - **_1280×720_** @ 15/30 fps
 
 The only post-processing performed on the obtained images is the exclusion of those that do not contain any part of the object. The following files were deleted:
 
