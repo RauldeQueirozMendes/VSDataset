@@ -9,7 +9,7 @@
 # Visual Servoing dataset
 > [E. G. Ribeiro](eduardogr@usp.br), [R. Q. Mendes](raulmendes@usp.br) and [V. Grassi Jr](vgrassi@usp.br)
 
-## :open_book: Description
+## :pencil2: Description
 
 > Summary
 
@@ -21,6 +21,10 @@ It is possible to obtain the absolute pose of the camera without any pre-process
 One may also use the dataset to get the camera's 6DoF speeds so that the visual servo control between two images can be performed. 
 Such speeds are already calculated through the classic PBVS law and made available in the VSLabels.txt file.
 ```
+
+Each folder contains images of an object/scene in different poses. The Labels.txt file within these folders concerns only the image and the respective camera pose: **_(I, [x, y, z, α, β, γ])_**. These files make it possible to __use the dataset for camera pose estimation problems, whether relative or absolute__.
+
+The VSLabels.txt file in the root concerns the tuples **_(I<sub>d</sub>, I<sub>c</sub>, v<sub>c</sub>)_** that enable end-to-end training of supervised visual servoing models.
 
 ## :gear: Construction of the dataset
 
@@ -166,6 +170,61 @@ After obtaining the data, the dataset is structured in the form **_(I, [x, y, z,
 Finally, for the network to be, in fact, a controller, the intention is that its prediction is directly the velocity signal of the camera, _i. e._ the control signal. So, the data structured as **_(I<sub>d</sub>, I<sub>c</sub>, <sup>d</sup>H<sub>c</sub>)_** is transformed to **_(I<sub>d</sub>, I<sub>c</sub>, v<sub>c</sub>)_**, in which **_v<sub>c</sub>_** is the proportional camera velocity. The proportional term is used because the **_λ_** gain is not considered in determining the labeled velocity, and must be tunned _a posteriori_, during the control execution. The velocity **_v<sub>c</sub>_** is obtained from **_<sup>d</sup>H<sub>c</sub>_** using Eqs. (), () and () (not considering **_λ_**).
 
 The final number of instances generated for network training and validation is given by Eq. ().
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=N_{ins}&space;=&space;\sum&space;_{i=1}^{20}&space;h_il_i&space;&plus;&space;m_il_i&space;&plus;&space;C_{l_{i},2}&space;&plus;&space;C_{m_{i},2}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?N_{ins}&space;=&space;\sum&space;_{i=1}^{20}&space;h_il_i&space;&plus;&space;m_il_i&space;&plus;&space;C_{l_{i},2}&space;&plus;&space;C_{m_{i},2}" title="N_{ins} = \sum _{i=1}^{20} h_il_i + m_il_i + C_{l_{i},2} + C_{m_{i},2}" /></a>
+
+In this equation, **_N<sub>ins</sub>_** is the total number of generated instances in the form **_(I<sub>d</sub>, I<sub>c</sub>, v<sub>c</sub>)_**, **_i_** is the considered scene (since **_I<sub>d</sub>_** and **_I<sub>c</sub>_** must be from the same scene) and **_h<sub>i</sub>, m<sub>i</sub>_** and **_l<sub>i</sub>_** are, respectively, the number of images obtained from a high, medium and low standard deviation. **_C<sub>l<sub>i</sub>,2</sub>_** and **_C<sub>m<sub>i</sub>,2</sub>_** is the total number of combinations of two between the images obtained with low and medium standard deviations, respectively, as given by Eq. ().
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=C_{n,p}=\frac{n!}{p!(n-p)!}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?C_{n,p}=\frac{n!}{p!(n-p)!}" title="C_{n,p}=\frac{n!}{p!(n-p)!}" /></a>
+
+These **_I<sub>d</sub>_** and **_I<sub>c</sub>_** choices were made to ensure that there is overlap between the considered images. Thus, combinations between High SD and Mid SD images, as well as combinations of two in the High SD set, were not considered. The details of this generation are presented in Table ().
+
+## :bar_chart: Practical details of the dataset
+
+__Camera:__ Omnivision OV5640 - **_1280\times720_** @ 15/30 fps
+
+The only post-processing performed on the obtained images is the exclusion of those that do not contain any part of the object. The following files were deleted:
+
+*Board/0.png
+*Board/2.png
+*Board/35.png
+*Board/55.png
+*Books1/27.png
+*Books1/28.png
+*Bottle/8.png
+*Bottle/9.png
+*Bottle/45.png
+*Dagger/37.png
+*Drone/14.png
+*Drone/30.png
+*Drone/50.png
+*Drone/60.png
+*Helmet/7.png
+*Helmet/9.png
+*Helmet/56.png
+*Mug/8.png
+*Mug/29.png
+*Mug/68.png
+*Peppers/38.png
+*Pliers/40.png
+*Pliers/52.png
+*Screwdriver/17.png
+*Screwdriver/18.png
+*Screwdriver/62.png
+*Screwdriver/64.png
+*Staples/34.png
+*Staples/64.png
+*Stuff1/57.png
+*Stuff2/95.png
+*Stuff4/156.png
+*Teddybear/4.png
+*Teddybear/6.png
+*Teddybear/14.png
+*Teddybear/30.png
+*Teddybear/57.png
+*Teddybear/58.png
+
+## :books: References
 
 ## :floppy_disk: Run
 
