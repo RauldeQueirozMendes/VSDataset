@@ -32,7 +32,7 @@ We tested the visual servoing dataset on a hardware with Python 3.6.8, Keras 2.2
 
 To train a model that can perform visual servoing on different target objects, without the need to design features, it is necessary to have a dataset that efficiently captures the attributes of the environment in which the robot operates, be representative of the VS task and diverse enough to ensure generalization. To this end, the data is collected by the robot Kinova Gen3 in a way that approximates the self-supervised approach. Human interventions are associated with the assembly of the workspace and the setup of the robot, which involves determining a reference pose from which the robot captures the images and labels them.
 
-The robot is programmed to assume different poses from a Gaussian distribution centered in the reference pose, with different standard deviations. This approach is inspired by the work of Bateux et al. (), which do the same, yet using virtual cameras and homography instead of a real environment. The reference pose (mean of the distribution) and the sets of Standard Deviations (SD) assumed by the robot are presented in Table ().
+The robot is programmed to assume different poses from a Gaussian distribution centered in the reference pose, with different standard deviations. This approach is inspired by the work of Bateux et al. (1), which do the same, yet using virtual cameras and homography instead of a real environment. The reference pose (mean of the distribution) and the sets of Standard Deviations (SD) assumed by the robot are presented in the following table:
 
 <table>
     <caption>Gaussian distribution parameters to build the VS dataset</caption> 
@@ -96,7 +96,7 @@ The robot is programmed to assume different poses from a Gaussian distribution c
     </tbody>
 </table>
 
-The SD choices take into account the expected displacement values that the robot must perform during the VS. In this way, the images obtained from a high SD help the network to understand the resulting changes in the image space when a large displacement is made by the robot. The instances obtained from a low SD enable the reduction of the error between the reference image and the current one when they are very close, for a good precision in steady state. The mean SD values help the network to reason during most of the VS execution. Two dataset instance examples and their respective labels are illustrated in Fig. ().
+The SD choices take into account the expected displacement values that the robot must perform during the VS. In this way, the images obtained from a high SD help the network to understand the resulting changes in the image space when a large displacement is made by the robot. The instances obtained from a low SD enable the reduction of the error between the reference image and the current one when they are very close, for a good precision in steady state. The mean SD values help the network to reason during most of the VS execution. Two dataset instance examples and their respective labels are illustrated in the following figure:
 
 > Instance examples from the VS dataset. Generated from a Gaussian distribution with mean in the reference pose **_[x, y, z, α, β, γ]: (0.228m, 0.344m, 0.532m, 175.8<sup>o</sup>, -5.5<sup>o</sup>, 90.0<sup>o</sup>)_** - Source: Author.
 
@@ -105,6 +105,20 @@ The SD choices take into account the expected displacement values that the robot
 
 ![Image taken from camera in pose (0.258m, 0.207m, 0.402m, -175.8<sup>o</sup>, -23.0<sup>o</sup>, 87.2<sup>o</sup>)](https://github.com/RauldeQueirozMendes/VSDataset/blob/main/Instance_Examples/26.png)
 > (b) Image taken from camera in pose (0.258m, 0.207m, 0.402m, -175.8<sup>o</sup>, -23.0<sup>o</sup>, 87.2<sup>o</sup>)
+
+After obtaining the data, the dataset is structured in the form **_(I, [x, y, z, α, β, γ])_**, in which **_I_** is the image, and **_[x, y, z, α, β, γ]_** is the associated camera pose when this image was captured. In order to use this dataset to train a Position Based VS neural network, two images and the relative pose between them must be considered. Then, each instance of the processed dataset takes the form **_(I<sub>d</sub>, I<sub>c</sub>,  <sup>d</sup>H<sub>c</sub>)_**, in which **_I<sub>d</sub>_** is a random instance chosen as the desired image, **_I<sub>c</sub>_** is another instance chosen as current image, and **_<sup>d</sup>H<sub>c</sub>_** is the transformation that relates the current frame to the desired camera frame. This is done by expressing each pose, represented by translations and Euler angles, in an homogeneous transformation matrix form **_<sup>0</sup>H<sub>d</sub>_** and **_<sup>0</sup>H<sub>c</sub>_**, and then obtaining **_<sup>d</sup>H<sub>c</sub> = <sup>0</sup>H<sub>d</sub><sup>-1</sup> <sup>0</sup>H<sub>c</sub>_**.
+
+Finally, for the network to be, in fact, a controller, the intention is that its prediction is directly the velocity signal of the camera, _i. e._ the control signal. So, the data structured as **_(I<sub>d</sub>, I<sub>c</sub>, <sup>d</sup>H<sub>c</sub>)_** is transformed to **_(I<sub>d</sub>, I<sub>c</sub>, v<sub>c</sub>)_**, in which **_v<sub>c</sub>_** is the proportional camera velocity. The proportional term is used because the **_λ_** gain is not considered in determining the labeled velocity, and must be tunned _a posteriori_, during the control execution. The velocity **_v<sub>c</sub>_** is obtained from **_<sup>d</sup>H<sub>c</sub>_** using equations 7, 8 and 13 from the [details](https://github.com/RauldeQueirozMendes/VSDataset/blob/main/Utils/VSDataset_Details.pdf) (not considering **_λ_**).
+
+The final number of instances generated for network training and validation is given by the following equations:
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=N_{ins}&space;=&space;\sum&space;_{i=1}^{20}&space;h_il_i&space;&plus;&space;m_il_i&space;&plus;&space;C_{l_{i},2}&space;&plus;&space;C_{m_{i},2}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?N_{ins}&space;=&space;\sum&space;_{i=1}^{20}&space;h_il_i&space;&plus;&space;m_il_i&space;&plus;&space;C_{l_{i},2}&space;&plus;&space;C_{m_{i},2}" title="N_{ins} = \sum _{i=1}^{20} h_il_i + m_il_i + C_{l_{i},2} + C_{m_{i},2}" /></a>
+
+In this equation, **_N<sub>ins</sub>_** is the total number of generated instances in the form **_(I<sub>d</sub>, I<sub>c</sub>, v<sub>c</sub>)_**, **_i_** is the considered scene (since **_I<sub>d</sub>_** and **_I<sub>c</sub>_** must be from the same scene) and **_h<sub>i</sub>, m<sub>i</sub>_** and **_l<sub>i</sub>_** are, respectively, the number of images obtained from a high, medium and low standard deviation. **_C<sub>l<sub>i</sub>,2</sub>_** and **_C<sub>m<sub>i</sub>,2</sub>_** is the total number of combinations of two between the images obtained with low and medium standard deviations, respectively, as given by the following equation:
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=C_{n,p}=\frac{n!}{p!(n-p)!}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?C_{n,p}=\frac{n!}{p!(n-p)!}" title="C_{n,p}=\frac{n!}{p!(n-p)!}" /></a>
+
+These **_I<sub>d</sub>_** and **_I<sub>c</sub>_** choices were made to ensure that there is overlap between the considered images. Thus, combinations between High SD and Mid SD images, as well as combinations of two in the High SD set, were not considered. The details of this generation are presented in the following table:
 
 <table>
     <caption>VS dataset: Composition and labels generation</caption> 
@@ -165,20 +179,6 @@ The SD choices take into account the expected displacement values that the robot
     </tbody>
 </table>
 
-After obtaining the data, the dataset is structured in the form **_(I, [x, y, z, α, β, γ])_**, in which **_I_** is the image, and **_[x, y, z, α, β, γ]_** is the associated camera pose when this image was captured. In order to use this dataset to train a Position Based VS neural network, two images and the relative pose between them must be considered. Then, each instance of the processed dataset takes the form **_(I<sub>d</sub>, I<sub>c</sub>,  <sup>d</sup>H<sub>c</sub>)_**, in which **_I<sub>d</sub>_** is a random instance chosen as the desired image, **_I<sub>c</sub>_** is another instance chosen as current image, and **_<sup>d</sup>H<sub>c</sub>_** is the transformation that relates the current frame to the desired camera frame. This is done by expressing each pose, represented by translations and Euler angles, in an homogeneous transformation matrix form **_<sup>0</sup>H<sub>d</sub>_** and **_<sup>0</sup>H<sub>c</sub>_**, and then obtaining **_<sup>d</sup>H<sub>c</sub> = <sup>0</sup>H<sub>d</sub><sup>-1</sup> <sup>0</sup>H<sub>c</sub>_**.
-
-Finally, for the network to be, in fact, a controller, the intention is that its prediction is directly the velocity signal of the camera, _i. e._ the control signal. So, the data structured as **_(I<sub>d</sub>, I<sub>c</sub>, <sup>d</sup>H<sub>c</sub>)_** is transformed to **_(I<sub>d</sub>, I<sub>c</sub>, v<sub>c</sub>)_**, in which **_v<sub>c</sub>_** is the proportional camera velocity. The proportional term is used because the **_λ_** gain is not considered in determining the labeled velocity, and must be tunned _a posteriori_, during the control execution. The velocity **_v<sub>c</sub>_** is obtained from **_<sup>d</sup>H<sub>c</sub>_** using Eqs. (), () and () (not considering **_λ_**).
-
-The final number of instances generated for network training and validation is given by Eq. ().
-
-<a href="https://www.codecogs.com/eqnedit.php?latex=N_{ins}&space;=&space;\sum&space;_{i=1}^{20}&space;h_il_i&space;&plus;&space;m_il_i&space;&plus;&space;C_{l_{i},2}&space;&plus;&space;C_{m_{i},2}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?N_{ins}&space;=&space;\sum&space;_{i=1}^{20}&space;h_il_i&space;&plus;&space;m_il_i&space;&plus;&space;C_{l_{i},2}&space;&plus;&space;C_{m_{i},2}" title="N_{ins} = \sum _{i=1}^{20} h_il_i + m_il_i + C_{l_{i},2} + C_{m_{i},2}" /></a>
-
-In this equation, **_N<sub>ins</sub>_** is the total number of generated instances in the form **_(I<sub>d</sub>, I<sub>c</sub>, v<sub>c</sub>)_**, **_i_** is the considered scene (since **_I<sub>d</sub>_** and **_I<sub>c</sub>_** must be from the same scene) and **_h<sub>i</sub>, m<sub>i</sub>_** and **_l<sub>i</sub>_** are, respectively, the number of images obtained from a high, medium and low standard deviation. **_C<sub>l<sub>i</sub>,2</sub>_** and **_C<sub>m<sub>i</sub>,2</sub>_** is the total number of combinations of two between the images obtained with low and medium standard deviations, respectively, as given by Eq. ().
-
-<a href="https://www.codecogs.com/eqnedit.php?latex=C_{n,p}=\frac{n!}{p!(n-p)!}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?C_{n,p}=\frac{n!}{p!(n-p)!}" title="C_{n,p}=\frac{n!}{p!(n-p)!}" /></a>
-
-These **_I<sub>d</sub>_** and **_I<sub>c</sub>_** choices were made to ensure that there is overlap between the considered images. Thus, combinations between High SD and Mid SD images, as well as combinations of two in the High SD set, were not considered. The details of this generation are presented in Table ().
-
 ## :bar_chart: Practical details of the dataset
 
 __Camera:__ Omnivision OV5640 - **_1280×720_** @ 15/30 fps
@@ -225,6 +225,8 @@ The only post-processing performed on the obtained images is the exclusion of th
 * Teddybear/58.png
 
 ## :books: References
+
+1. Q. Bateux, E. Marchand, J. Leitner, F. Chaumette, and P. Corke, “Training deep neuralnetworks for visual servoing,” inICRA 2018-IEEE International Conference on Roboticsand Automation.    Brisbane, Australia:  IEEE, 2018, pp. 1–8.
 
 ## :floppy_disk: Run
 
