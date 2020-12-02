@@ -185,44 +185,44 @@ __Camera:__ Omnivision OV5640 - **_1280\times720_** @ 15/30 fps
 
 The only post-processing performed on the obtained images is the exclusion of those that do not contain any part of the object. The following files were deleted:
 
-*Board/0.png
-*Board/2.png
-*Board/35.png
-*Board/55.png
-*Books1/27.png
-*Books1/28.png
-*Bottle/8.png
-*Bottle/9.png
-*Bottle/45.png
-*Dagger/37.png
-*Drone/14.png
-*Drone/30.png
-*Drone/50.png
-*Drone/60.png
-*Helmet/7.png
-*Helmet/9.png
-*Helmet/56.png
-*Mug/8.png
-*Mug/29.png
-*Mug/68.png
-*Peppers/38.png
-*Pliers/40.png
-*Pliers/52.png
-*Screwdriver/17.png
-*Screwdriver/18.png
-*Screwdriver/62.png
-*Screwdriver/64.png
-*Staples/34.png
-*Staples/64.png
-*Stuff1/57.png
-*Stuff2/95.png
-*Stuff4/156.png
-*Teddybear/4.png
-*Teddybear/6.png
-*Teddybear/14.png
-*Teddybear/30.png
-*Teddybear/57.png
-*Teddybear/58.png
+* Board/0.png
+* Board/2.png
+* Board/35.png
+* Board/55.png
+* Books1/27.png
+* Books1/28.png
+* Bottle/8.png
+* Bottle/9.png
+* Bottle/45.png
+* Dagger/37.png
+* Drone/14.png
+* Drone/30.png
+* Drone/50.png
+* Drone/60.png
+* Helmet/7.png
+* Helmet/9.png
+* Helmet/56.png
+* Mug/8.png
+* Mug/29.png
+* Mug/68.png
+* Peppers/38.png
+* Pliers/40.png
+* Pliers/52.png
+* Screwdriver/17.png
+* Screwdriver/18.png
+* Screwdriver/62.png
+* Screwdriver/64.png
+* Staples/34.png
+* Staples/64.png
+* Stuff1/57.png
+* Stuff2/95.png
+* Stuff4/156.png
+* Teddybear/4.png
+* Teddybear/6.png
+* Teddybear/14.png
+* Teddybear/30.png
+* Teddybear/57.png
+* Teddybear/58.png
 
 ## :books: References
 
