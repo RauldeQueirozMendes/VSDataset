@@ -11,13 +11,9 @@
 
 If you find this dataset useful in your research please consider citing our work:
 
-```
-**Real-Time Deep Learning Approach to Visual Servo Control and Grasp Detection for Autonomous Robotic Manipulation**
-
-_Elsevier's Robotics and Autonomous Systems (2021)_
- 
-_DOI: /10.1016/j.robot.2021.103757_
-```
+> **Real-Time Deep Learning Approach to Visual Servo Control and Grasp Detection for Autonomous Robotic Manipulation**
+> _Elsevier's Robotics and Autonomous Systems (2021)_
+> _DOI: /10.1016/j.robot.2021.103757_
 
 ## :pencil2: Description
 
