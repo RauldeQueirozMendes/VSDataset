@@ -60,7 +60,7 @@ The robot is programmed to assume different poses from a Gaussian distribution c
         <tr>
             <td rowspan=3>Position [m]</td>
             <td>x</td>
-            <td>0.288</td>
+            <td>0.228</td>
             <td>0.080</td>
             <td>0.030</td>
             <td>0.010</td>
